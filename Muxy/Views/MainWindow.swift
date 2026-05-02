@@ -800,11 +800,7 @@ struct MainWindow: View {
         }
 
         ensureVCSState(for: project)
-        let isShowing = !vcsPanelVisible
-        vcsPanelVisible = isShowing
-        if isShowing {
-            fileTreePanelVisible = false
-        }
+        vcsPanelVisible.toggle()
         persistSidebarVisibility(for: project)
     }
 
@@ -818,11 +814,8 @@ struct MainWindow: View {
         }
 
         ensureFileTreeState(for: project)
-        let isShowing = !fileTreePanelVisible
-        fileTreePanelVisible = isShowing
-        if isShowing {
-            vcsPanelVisible = false
-        } else {
+        fileTreePanelVisible.toggle()
+        if !fileTreePanelVisible {
             NotificationCenter.default.post(name: .refocusActiveTerminal, object: nil)
         }
         persistSidebarVisibility(for: project)
@@ -845,16 +838,12 @@ struct MainWindow: View {
 
         if wantsVCS {
             ensureVCSState(for: project)
-            vcsPanelVisible = true
-            fileTreePanelVisible = false
-        } else if wantsFileTree {
-            ensureFileTreeState(for: project)
-            fileTreePanelVisible = true
-            vcsPanelVisible = false
-        } else {
-            vcsPanelVisible = false
-            fileTreePanelVisible = false
         }
+        if wantsFileTree {
+            ensureFileTreeState(for: project)
+        }
+        vcsPanelVisible = wantsVCS
+        fileTreePanelVisible = wantsFileTree
         lastRestoredProjectID = project.id
     }
 
