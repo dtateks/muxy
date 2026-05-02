@@ -14,6 +14,8 @@ struct GeneralSettingsView: View {
     private var keepProjectsOpenWhenNoTabs = false
     @AppStorage(GeneralSettingsKeys.showNavigationArrows)
     private var showNavigationArrows = true
+    @AppStorage(SidebarPanelPreferences.rememberPerProjectKey)
+    private var rememberSidebarsPerProject = false
 
     var body: some View {
         SettingsContainer {
@@ -24,6 +26,16 @@ struct GeneralSettingsView: View {
                 SettingsToggleRow(
                     label: "Auto-expand worktrees on project switch",
                     isOn: $autoExpandWorktrees
+                )
+            }
+
+            SettingsSection(
+                "Side Panels",
+                footer: "Remember the show/hide state of the file tree and source control panels independently for each project."
+            ) {
+                SettingsToggleRow(
+                    label: "Remember file tree and source control per project",
+                    isOn: $rememberSidebarsPerProject
                 )
             }
 
