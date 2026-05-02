@@ -61,8 +61,11 @@ struct QuickTooltipModifier: ViewModifier {
         content
             .onGeometryChange(for: CGRect.self) { $0.frame(in: .global) } action: { globalFrame = $0 }
             .background(TooltipHoverTrackingView { hovering in
-                if hovering { TooltipState.shared.show(id: id, text: text, frame: globalFrame) }
-                else { TooltipState.shared.hide(id: id) }
+                if hovering {
+                    TooltipState.shared.show(id: id, text: text, frame: globalFrame)
+                } else {
+                    TooltipState.shared.hide(id: id)
+                }
             })
             .simultaneousGesture(TapGesture().onEnded {
                 TooltipState.shared.hide(id: id)
