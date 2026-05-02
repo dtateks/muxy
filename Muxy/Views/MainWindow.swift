@@ -291,13 +291,7 @@ struct MainWindow: View {
             pruneFileTreeStates()
         }
         .onChange(of: vcsEnsureSignature) {
-            guard let project = activeProject else { return }
-            if vcsPanelVisible, VCSDisplayMode.current == .attached {
-                ensureVCSState(for: project)
-            }
-            if fileTreePanelVisible {
-                ensureFileTreeState(for: project)
-            }
+            ensureVisibleSidePanelStates()
         }
         .modifier(SidebarVisibilityMemorySync(
             activeProjectID: appState.activeProjectID,
@@ -779,6 +773,16 @@ struct MainWindow: View {
             state.revealFile(at: filePath)
         } else {
             state.clearSelection()
+        }
+    }
+
+    private func ensureVisibleSidePanelStates() {
+        guard let project = activeProject else { return }
+        if vcsPanelVisible, VCSDisplayMode.current == .attached {
+            ensureVCSState(for: project)
+        }
+        if fileTreePanelVisible {
+            ensureFileTreeState(for: project)
         }
     }
 
