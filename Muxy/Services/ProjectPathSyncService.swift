@@ -2,6 +2,7 @@ import Foundation
 
 @MainActor
 enum ProjectPathSyncService {
+    // swiftlint:disable:next function_parameter_count
     static func syncFromTerminalWorkingDirectory(
         projectID: UUID,
         worktreeID: UUID,
